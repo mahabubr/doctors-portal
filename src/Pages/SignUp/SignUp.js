@@ -1,16 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Contexts/AuthProvider/AuthProvider';
+import useToken from '../../Hooks/useToken';
 
 const SignUp = () => {
 
+    const { register, formState: { errors }, handleSubmit } = useForm();
+    const { createUser, updateUser, signInWithGoogle } = useContext(AuthContext)
+    const [createdUserEmail, setCreatedUserEmail] = useState('')
+    const [token] = useToken(createdUserEmail)
     const navigate = useNavigate()
 
-    const { register, formState: { errors }, handleSubmit } = useForm();
-
-    const { createUser, updateUser, signInWithGoogle } = useContext(AuthContext)
+    if (token) {
+        navigate('/')
+    }
 
     const handleSignUp = (data) => {
         createUser(data.email, data.password)
@@ -41,20 +46,9 @@ const SignUp = () => {
         })
             .then(res => res.json())
             .then(data => {
-                getUserToken(email)
+                setCreatedUserEmail(email)
             })
             .catch(e => console.log(e))
-    }
-
-    const getUserToken = email => {
-        fetch(`http://localhost:5000/jwt?email=${email}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.accessToken) {
-                    localStorage.setItem("access-token", data.accessToken)
-                    navigate('/')
-                }
-            })
     }
 
     const handleGoogleSignIn = () => {
