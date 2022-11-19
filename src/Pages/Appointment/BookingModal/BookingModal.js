@@ -7,7 +7,7 @@ const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
 
     const { user } = useContext(AuthContext)
 
-    const { name: treatmentName, slots } = treatment
+    const { name: treatmentName, slots, price } = treatment
 
     const date = format(selectedDate, "PP")
 
@@ -27,6 +27,7 @@ const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
             treatment: treatmentName,
             email,
             phone,
+            price,
             slot
         }
 

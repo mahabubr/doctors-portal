@@ -11,6 +11,7 @@ import PrivateRoute from '../PrivateRoute/PrivateRoute'
 import AdminRoute from '../AdminRoute/AdminRoute'
 import AddDoctor from '../../Pages/Dashboard/AddDoctor/AddDoctor'
 import ManageDoctors from '../../Pages/Dashboard/ManageDoctors/ManageDoctors'
+import Payment from '../../Pages/Dashboard/Payment/Payment'
 
 const router = createBrowserRouter([
     {
@@ -67,6 +68,14 @@ const router = createBrowserRouter([
                         <ManageDoctors />
                     </AdminRoute>
             },
+            {
+                path: '/dashboard/payment/:id',
+                element:
+                    <PrivateRoute>
+                        <Payment />
+                    </PrivateRoute>,
+                loader: ({ params }) => fetch(`http://localhost:5000/bookings/${params.id}`)
+            }
         ]
     }
 ])
