@@ -20,7 +20,7 @@ const Payment = () => {
             <p className="text-xl text-blue-600">Please Pay ${booking.price} For Your Appointment on {booking.appointmentDate}</p>
             <div className='w-96 my-12'>
                 <Elements stripe={stripePromise}>
-                    <CheckOutForm />
+                    <CheckOutForm booking={booking} />
                 </Elements>
             </div>
         </div>
